@@ -1,3 +1,8 @@
+#toolchain
+
+.ignore
+ignore
+
 # Prerequisites
 *.d
 
