@@ -102,7 +102,7 @@ void pollInputs() {
                     printf("Key pressed: KEY_DOWN\n");
                     doomKey = KEY_DOWNARROW;
                     break;
-                case KEY_ENTER:
+                case KEY_F24:
                     printf("Key pressed: KEY_ENTER\n");
                     doomKey = KEY_FIRE; // Map ENTER to firing
                     break;
