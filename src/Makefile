@@ -12,19 +12,12 @@ else
 endif
 
 
-#CC=arm-kindle-linux-gnueabi-gcc  # gcc or g++
-CC=arm-cortex_a8-linux-gnueabi-gcc
+#  To run inside an ubuntu image with build-essential (for make) 
+CC=../toolchain/arm-cortex_a8-linux-gnueabi/bin/arm-cortex_a8-linux-gnueabi-gcc
 CFLAGS+=-mcpu=cortex-a8 -ggdb3 -Os
 LDFLAGS+=-Wl,--gc-sections
 CFLAGS+=-ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm -lc -ldl -lpthread
-
-# Seems my compiler can't find x11 on its own -_-
-CFLAGS+=-I/usr/arm-kindle-linux-gnueabi/lib
-LDFLAGS+=-L/usr/arm-kindle-linux-gnueabi/lib
-
-#LDFLAGS+=-L/usr/lib/arm-kindle-linux-gnueabi
-#LDFLAGS+=-L/usr/arm-kindle-linux-gnueabi/lib
 
 # subdirectory for objects
 OBJDIR=build
