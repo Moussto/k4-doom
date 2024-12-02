@@ -1,3 +1,4 @@
+#include <getopt.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
@@ -24,6 +25,8 @@ unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 int s_KeyQueueReadIndex = 0;
 int s_KeyQueueWriteIndex = 0;
 
+int display_mode = 1; // default 1 for dithered, 2 for black and white, 3 for greyscale 
+
 void log_message(const char* message) {
     time_t now;
     time(&now);
@@ -33,6 +36,31 @@ void log_message(const char* message) {
     printf("[%02d:%02d:%02d] %s\n",
            local->tm_hour, local->tm_min, local->tm_sec,
            message);
+}
+
+static struct option long_options[] = {
+    {"mode", required_argument, NULL, 'm'},
+    {0, 0, 0, 0}
+};
+
+void parse_custom_options(int argc, char *argv[]) {
+    int opt;
+    while ((opt = getopt_long(argc, argv, "m:", long_options, NULL)) != -1) {
+        switch (opt) {
+            case 'm': // --mode
+                if (strcmp(optarg, "greyscale") == 0) {
+                    display_mode = 3;
+                    printf("greyscale mode ON\n");
+                } else if (strcmp(optarg, "blackwhite") == 0) {
+                    display_mode = 2;
+                    printf("Black and white mode ON\n");
+                } 
+                break;
+            default:
+                // Do nothing if an unrecognized option is encountered
+                break;
+        }
+    }
 }
 
 void apply_dithering(unsigned char *buffer, int width, int height) {
@@ -102,7 +130,7 @@ void pollInputs() {
                     printf("Key pressed: KEY_DOWN\n");
                     doomKey = KEY_DOWNARROW;
                     break;
-                case KEY_ENTER:
+                case KEY_F24:
                     printf("Key pressed: KEY_ENTER\n");
                     doomKey = KEY_FIRE; // Map ENTER to firing
                     break;
@@ -169,6 +197,10 @@ void DG_DrawFrame() {
             // intensity= 0.299×R + 0.587×G + 0.114×B
             uint8_t intensity = (0.299 * red) + (0.587 * green) + (0.114 * blue);
             // brightness
+
+            if(display_mode == 2) {
+                intensity =  intensity > 60 ? 255 : 0;
+            }
 			//intensity = (intensity + 30 > 255) ? 255 : intensity + 30;
 
 
@@ -176,7 +208,10 @@ void DG_DrawFrame() {
         }
     }
 
-    apply_dithering(backBuffer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    if(display_mode == 1) {
+        apply_dithering(backBuffer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    }
 	// backbuffer to main buffer to avoid flickering
     memcpy(resized_framebuffer, backBuffer, sizeof(backBuffer));
 
@@ -232,6 +267,7 @@ int DG_GetKey(int* pressed, unsigned char* doomKey) {
 
 int main(int argc, char **argv)
 {
+    parse_custom_options(argc, argv);
     doomgeneric_Create(argc, argv);
 
     while (1)

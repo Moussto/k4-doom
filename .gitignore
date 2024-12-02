@@ -1,11 +1,12 @@
 #toolchain
 
-.ignore
-ignore
+toolchain/arm-cortex_a8-linux-gnueabi.tar.gz
+toolchain/arm-cortex_a8-linux-gnueabi/
+*.log
 
 # Prerequisites
 *.d
-
+.vscode/
 .DS_Store
 .idea
 
