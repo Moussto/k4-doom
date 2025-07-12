@@ -1,8 +1,5 @@
-<h1 align="center">K4 DOOM</h1>
-
-<p align="center">
-  <em>DOOM Port on Kindle 4</em>
-</p>
+<h1 align="center">K4DOOM: DOOM Port on Kindle 4</h1>
+<img width="1023" height="405" alt="Screenshot 2025-07-12 at 17 24 03" src="https://github.com/user-attachments/assets/058950a1-31b4-4b15-ba38-4ad568c11c5e" />
 
 <p align="center">
   <a href="https://github.com/Moussto/k4-doom">
@@ -22,13 +19,16 @@
 
 ---
 
-A Doom port (and toolchain) that is playable no a Kindle 4 
+[demo.webm](https://github.com/user-attachments/assets/2d42f39d-f998-4af9-9106-26cf0ba7714e)
+
+
+A Doom port (and toolchain) that is playable on a Kindle 4 
 
 Toolchain (releases tab) can be used in a Linux container to compile the DOOM source code.
 
 Magic is in `doomgeneric_kfb.c` (Kindle Framebuffer logic).
 
-Multiple modes of display are implemented= 
+Multiple modes of display are implemented
 - `greyscale` (Native 8 bit greyscale)
 - `blackwhite` (Black and white 1 bit black/white)
 - `dithered` (Dithered + Black and white 1 bit) (Default mode)
